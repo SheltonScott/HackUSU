@@ -19,7 +19,6 @@ class GameScene: SKScene {
     
     let cam = SKCameraNode()
     
-    
     var leftArrowPressed = false
     var rightArrowPressed = false
     
@@ -36,7 +35,6 @@ class GameScene: SKScene {
                 }
             }
         }
-        
         warrior.position = CGPoint(x: frame.midX, y: frame.midY)
         warrior.physicsBody = SKPhysicsBody(rectangleOf: warrior.size)
         warrior.physicsBody!.allowsRotation = false
@@ -46,16 +44,19 @@ class GameScene: SKScene {
         
         self.camera = cam
         self.addChild(cam)
-        rightArrow.position = CGPoint(x: frame.midX - 300, y: frame.midY - 215)
+        
+        rightArrow.position = CGPoint(x: warrior.position.x - 300 , y: warrior.position.y - 215)
         rightArrow.zPosition = 1.0
         cam.addChild(rightArrow)
         
-        leftArrow.position = CGPoint(x: frame.midX - 500, y: frame.midY - 215)
+        leftArrow.position = CGPoint(x:  warrior.position.x - 500 , y: warrior.position.y - 215)
         leftArrow.zPosition = 1.0
         cam.addChild(leftArrow)
         
-        
+        let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: warrior)
+        cam.constraints = [constraint]
     }
+ 
     
     func giveTileMapPhysicsBody(map: SKTileMapNode) {
         let tileMap = map
@@ -106,11 +107,11 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         let touch = touches.first!
-        if leftArrow.contains(touch.location(in: self)) {
+        if leftArrow.contains(touch.location(in: cam)) {
             leftArrowPressed = true
             movePlayerLeft(warrior)
         }
-        if rightArrow.contains(touch.location(in: self)) {
+        if rightArrow.contains(touch.location(in: cam)) {
             rightArrowPressed = true
             movePlayerRight(warrior)
         }
@@ -127,6 +128,7 @@ class GameScene: SKScene {
         let move = SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.2)
         let animate = SKAction.animate(with: warriorFrames, timePerFrame: 0.09)
         let group = SKAction.group([move, animate])
+        
         player.run(group)
     }
 
@@ -152,12 +154,13 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         warriorFrames.removeAll()
         let touch = touches.first!
-        if leftArrow.contains(touch.location(in: self)) {
+        if leftArrow.contains(touch.location(in: cam)) {
             leftArrowPressed = false
         }
-        if rightArrow.contains(touch.location(in: self)) {
+        if rightArrow.contains(touch.location(in: cam)) {
             rightArrowPressed = false
         }
+      
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -166,6 +169,6 @@ class GameScene: SKScene {
     
     
     override func update(_ currentTime: TimeInterval) {
-       cam.position = warrior.position
+        
     }
 }
