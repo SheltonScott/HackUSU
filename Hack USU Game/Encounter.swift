@@ -12,6 +12,7 @@ import GameplayKit
 
 class Encounter: SKScene {
     
+    var type = 0
     let warrior = SKSpriteNode(imageNamed: "warrior_right_big1")
     let blob = SKSpriteNode(imageNamed: "blob_big0")
     
@@ -26,6 +27,7 @@ class Encounter: SKScene {
         warrior.physicsBody!.contactTestBitMask = warrior.physicsBody!.collisionBitMask
         warrior.physicsBody!.restitution = 0.0
         warrior.name = "warrior"
+        
         
         blob.position = CGPoint(x: frame.midX + 350, y: frame.midY)
         blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
