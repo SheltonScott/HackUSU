@@ -12,6 +12,10 @@ import GameplayKit
 
 class Encounter: SKScene {
     //This is the encounter scene
+    
+    let warrior = SKSpriteNode(imageNamed: "warrior_right_big1")
+    let blob = SKSpriteNode(imageNamed: "blob_big0")
+    
     override func didMove(to view: SKView) {
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
         
@@ -23,6 +27,19 @@ class Encounter: SKScene {
                 }
             }
         }
+        
+        warrior.position = CGPoint(x: frame.midX - 200, y: frame.midY)
+        warrior.physicsBody = SKPhysicsBody(rectangleOf: warrior.size)
+        warrior.physicsBody!.allowsRotation = false
+        warrior.physicsBody!.restitution = 0.0
+        self.addChild(warrior)
+        
+        blob.position = CGPoint(x: frame.midX + 200, y: frame.midY)
+        blob.physicsBody = SKPhysicsBody(rectangleOf: blob.size)
+        blob.physicsBody!.allowsRotation = false
+        blob.physicsBody!.restitution = 0.0
+        self.addChild(blob)
+        
     }
     
     func giveTileMapPhysicsBody(map: SKTileMapNode) {
