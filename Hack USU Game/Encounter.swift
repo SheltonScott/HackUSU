@@ -113,7 +113,7 @@ class Encounter: SKScene {
                 monsterHP = 12
             }
             else {
-                monsterHP = 12 * numKey
+                monsterHP = 12 * (numKey + 1)
             }
             self.addChild(monster)
         }
