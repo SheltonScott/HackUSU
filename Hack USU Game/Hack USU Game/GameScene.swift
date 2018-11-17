@@ -37,6 +37,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let numBlobs = Int(arc4random_uniform(6 + 1))
     let numZombs = Int(arc4random_uniform(6 + 1))
     
+    var blobX = CGFloat(200)
+    var zombX = CGFloat(200)
+    
     enum CategoryMask: UInt32 {
         case warrior = 0b01 // 1
         case blob = 0b10 // 2
@@ -46,6 +49,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
         physicsWorld.contactDelegate = self
+        
+        blobX = CGFloat(200)
+        zombX = CGFloat(200)
         
         for node in self.children {
             if (node.name == "TileMap") {
@@ -87,8 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 0:
             for _ in 0..<numBlobs {
                 blob = SKSpriteNode(imageNamed: "blob0")
-                let randomBlobX = CGFloat(arc4random_uniform(201))
-                blob.position = CGPoint(x: frame.maxX + randomBlobX, y: frame.midY)
+                blob.position = CGPoint(x: frame.midX + blobX, y: frame.midY)
                 blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
                                                  size: blob.texture!.size())
                 blob.physicsBody!.allowsRotation = false
@@ -96,6 +101,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 blob.name = "blob"
                 
                 self.addChild(blob)
+                
+                blobX += CGFloat(arc4random_uniform(300 + 100))
                 
                 let textureAtlas = SKTextureAtlas(named: "Blob")
                 
@@ -109,8 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 1:
             for _ in 0..<numZombs {
                 zomb = SKSpriteNode(imageNamed: "zombie_idle_1")
-                let randomZombX = CGFloat(arc4random_uniform(201))
-                zomb.position = CGPoint(x: frame.maxX + randomZombX, y: frame.midY)
+                zomb.position = CGPoint(x: frame.midX + zombX, y: frame.midY)
                 zomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
                                                  size: zomb.texture!.size())
                 zomb.physicsBody!.allowsRotation = false
@@ -118,6 +124,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 zomb.name = "zomb"
                 
                 self.addChild(zomb)
+                
+                zombX += CGFloat(arc4random_uniform(300 + 100))
                 
                 let textureAtlas = SKTextureAtlas(named: "ZombieIdle")
                 
