@@ -124,14 +124,15 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         monster.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
         if (monsterHP <= 0) {
             monster.run(SKAction.moveBy(x: 0.0, y: -2000.0, duration: 0.45))
-            if let scene = GameScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                let skView = self.view as! SKView
-                
-                // Present the scene
-                skView.presentScene(scene)
-            }
+            let transition = SKTransition.reveal(
+                with: .down,
+                duration: 1.0
+            )
+            
+            let nextScene = GameScene(fileNamed: "GameScene")
+            
+            nextScene!.scaleMode = .aspectFill
+            scene!.view?.presentScene(nextScene!, transition: transition)
         }
     }
     if (monster.name == "zomb") {
@@ -139,14 +140,15 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         monster.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
         if (monsterHP <= 0) {
             monster.run(SKAction.moveBy(x: 0.0, y: -2000.0, duration: 0.45))
-            if let scene = GameScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                let skView = self.view as! SKView
-                
-                // Present the scene
-                skView.presentScene(scene)
-            }
+            let transition = SKTransition.reveal(
+                with: .down,
+                duration: 1.0
+            )
+            
+            let nextScene = GameScene(fileNamed: "GameScene")
+            
+            nextScene!.scaleMode = .aspectFill
+            scene!.view?.presentScene(nextScene!, transition: transition)
         }
     }
 }
