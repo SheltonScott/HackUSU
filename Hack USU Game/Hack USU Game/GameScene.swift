@@ -13,6 +13,9 @@ class GameScene: SKScene {
     
     let warrior = SKSpriteNode(imageNamed: "warrior_right0")
     let warriorFrames = [SKTexture]()
+    let rightArrow = SKSpriteNode(imageNamed: "right-arrow")
+    let leftArrow = SKSpriteNode(imageNamed: "left-arrow")
+    
     
     override func didMove(to view: SKView) {
         
@@ -32,6 +35,15 @@ class GameScene: SKScene {
         warrior.physicsBody!.allowsRotation = false
         warrior.physicsBody!.restitution = 0.0
         self.addChild(warrior)
+        
+        rightArrow.position = CGPoint(x: frame.midX - 300, y: frame.midY - 215)
+        rightArrow.zPosition = 1.0
+        self.addChild(rightArrow)
+        
+        leftArrow.position = CGPoint(x: frame.midX - 500, y: frame.midY - 215)
+        leftArrow.zPosition = 1.0
+        self.addChild(leftArrow)
+        
         
     }
     
