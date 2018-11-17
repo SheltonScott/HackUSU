@@ -24,10 +24,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rightArrowPressed = false
     var jumpArrowPressed = false
     
+    let monsterType = Int(arc4random_uniform(1))
+    
     var blob = SKSpriteNode()
     var blobFrames = [SKTexture]()
     
+    var zomb = SKSpriteNode()
+    var zombFrames = [SKTexture]()
+    
     let numBlobs = Int(arc4random_uniform(6 + 1))
+    let numZombs = Int(arc4random_uniform(6 + 1))
     
     enum CategoryMask: UInt32 {
         case warrior = 0b01 // 1
@@ -75,25 +81,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: warrior)
         cam.constraints = [constraint]
         
-        for _ in 0..<numBlobs {
-            blob = SKSpriteNode(imageNamed: "blob0")
-            let randomBlobX = CGFloat(arc4random_uniform(1000 + 100))
-            blob.position = CGPoint(x: frame.midX + randomBlobX, y: frame.midY)
-            blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
-                                             size: blob.texture!.size())
-            blob.physicsBody!.allowsRotation = false
-            blob.physicsBody!.restitution = 0.0
-            blob.name = "blob"
-        
-            self.addChild(blob)
-            
-            let textureAtlas = SKTextureAtlas(named: "Blob")
-            
-            for index in 0..<textureAtlas.textureNames.count {
-                let textureName = "blob\(index).png"
-                blobFrames.append(textureAtlas.textureNamed(textureName))
+        switch monsterType {
+        case 0:
+            for _ in 0..<numBlobs {
+                blob = SKSpriteNode(imageNamed: "blob0")
+                let randomBlobX = CGFloat(arc4random_uniform(1000 + 100))
+                blob.position = CGPoint(x: frame.midX + randomBlobX, y: frame.midY)
+                blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
+                                                 size: blob.texture!.size())
+                blob.physicsBody!.allowsRotation = false
+                blob.physicsBody!.restitution = 0.0
+                blob.name = "blob"
+                
+                self.addChild(blob)
+                
+                let textureAtlas = SKTextureAtlas(named: "Blob")
+                
+                for index in 0..<textureAtlas.textureNames.count {
+                    let textureName = "blob\(index).png"
+                    blobFrames.append(textureAtlas.textureNamed(textureName))
+                }
+                blob.run(SKAction.repeatForever(SKAction.animate(with: blobFrames, timePerFrame: 0.08)))
             }
-            blob.run(SKAction.repeatForever(SKAction.animate(with: blobFrames, timePerFrame: 0.08)))
+            break
+        case 1:
+            for _ in 0..<numZombs {
+                zomb = SKSpriteNode(imageNamed: "zombie_idle_1")
+                let randomZombX = CGFloat(arc4random_uniform(1000 + 100))
+                zomb.position = CGPoint(x: frame.midX + randomZombX, y: frame.midY)
+                zomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
+                                                 size: zomb.texture!.size())
+                zomb.physicsBody!.allowsRotation = false
+                zomb.physicsBody!.restitution = 0.0
+                zomb.name = "zomb"
+                
+                self.addChild(zomb)
+                
+                let textureAtlas = SKTextureAtlas(named: "ZombieIdle")
+                
+                for index in 1..<textureAtlas.textureNames.count {
+                    let textureName = "zombie_idle_\(index).png"
+                    zombFrames.append(textureAtlas.textureNamed(textureName))
+                }
+                zomb.run(SKAction.repeatForever(SKAction.animate(with: zombFrames, timePerFrame: 0.08)))
+            }
+            break
+        default:
+            break
         }
         
         
@@ -101,6 +135,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
  
     func collision(_ player: SKSpriteNode,_ monster: SKSpriteNode) {
         if (monster.name == "blob") {
+            let transition = SKTransition.reveal(
+                with: .down,
+                duration: 1.0
+            )
+            
+            let nextScene = Encounter(fileNamed: "Encounter")
+            nextScene!.scaleMode = .aspectFill
+            
+            scene!.view?.presentScene(nextScene!, transition: transition)
+            
+            monster.removeFromParent()
+        }
+        else if (monster.name == "zomb") {
             let transition = SKTransition.reveal(
                 with: .down,
                 duration: 1.0
