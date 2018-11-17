@@ -16,10 +16,17 @@ class Encounter: SKScene {
     let warrior = SKSpriteNode(imageNamed: "warrior_right_big1")
     let blob = SKSpriteNode(imageNamed: "blob_big0")
     let zomb = SKSpriteNode(imageNamed: "zombie_big")
+    let attackButton = SKSpriteNode(imageNamed: "attack_button")
+    var attackButtonPressed = false
+    var monster = SKSpriteNode()
     
     override func didMove(to view: SKView) {
         
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
+        
+        attackButton.position = CGPoint(x: frame.midX, y: frame.midY)
+        attackButton.zPosition = 1.0
+        self.addChild(attackButton)
         
         warrior.position = CGPoint(x: frame.midX - 350, y: frame.midY)
         warrior.physicsBody = SKPhysicsBody(texture: warrior.texture!,
@@ -57,10 +64,12 @@ class Encounter: SKScene {
         
         self.addChild(warrior)
         if (type == 0) {
-            self.addChild(blob)
+            monster = blob
+            self.addChild(monster)
         }
         if (type == 1) {
-            self.addChild(zomb)
+            monster = zomb
+            self.addChild(monster)
         }
     }
     
@@ -96,17 +105,35 @@ class Encounter: SKScene {
             }
         }
     }
-        
+    
+override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    let touch = touches.first!
+    if attackButton.contains(touch.location(in: self)) {
+        attackButtonPressed = true
+        attackMonster(monster)
     }
-func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+}
+
+    func attackMonster(_ monster: SKSpriteNode) {
+    warrior.run(SKAction.sequence([SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08)]))
+    if (monster.name == "blob") {
+        monster.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
     }
-func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+    if (monster.name == "zomb") {
+        monster.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
+    }
+}
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first!
+        if attackButton.contains(touch.location(in: self)) {
+            attackButtonPressed = false
+        }
     }
     
-func update(_ currentTime: TimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         
     }
     
 
+}
