@@ -77,7 +77,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for _ in 0..<numBlobs {
             blob = SKSpriteNode(imageNamed: "blob0")
-            let randomBlobX = CGFloat(arc4random_uniform(3000 + 100))
+            let randomBlobX = CGFloat(arc4random_uniform(2000 + 100))
             blob.position = CGPoint(x: frame.midX + randomBlobX, y: frame.midY)
             blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
                                              size: blob.texture!.size())
@@ -101,7 +101,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
  
     func collision(_ player: SKSpriteNode,_ monster: SKSpriteNode) {
         if (monster.name == "blob") {
-            monster.removeFromParent()
+            let transition = SKTransition.reveal(
+                with: .down,
+                duration: 1.0
+            )
+            
+            let nextScene = Encounter(size: scene!.size)
+            nextScene.scaleMode = .aspectFill
+            
+            scene!.view?.presentScene(nextScene, transition: transition)
         }
     }
     
