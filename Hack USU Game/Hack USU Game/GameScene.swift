@@ -174,6 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             )
             
             let nextScene = Encounter(fileNamed: "Encounter")
+            nextScene!.numKey = numKeys
             nextScene!.scaleMode = .aspectFill
             nextScene!.playerHP = playerHp
             scene!.view?.presentScene(nextScene!, transition: transition)
@@ -186,6 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             )
             
             let nextScene = Encounter(fileNamed: "Encounter")
+            nextScene!.numKey = numKeys
             nextScene!.playerHP = playerHp
             nextScene!.scaleMode = .aspectFill
             nextScene?.type = 1
@@ -200,14 +202,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             )
             
             let nextScene = Encounter(fileNamed: "Encounter")
+            nextScene!.numKey = numKeys
             nextScene!.playerHP = playerHp
             nextScene!.scaleMode = .aspectFill
             nextScene?.type = 2
             scene!.view?.presentScene(nextScene!, transition: transition)
-            
             monster.removeFromParent()
-            print("collided")
-            numKeys += 1
+
             
             
         }
