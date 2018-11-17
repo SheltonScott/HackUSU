@@ -184,7 +184,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             monster.removeFromParent()
         }
         if (monster.name == "key") {
-            numKeys += 1
+            let transition = SKTransition.reveal(
+                with: .down,
+                duration: 1.0
+            )
+            
+            let nextScene = Encounter(fileNamed: "Encounter")
+            nextScene!.playerHP = playerHp
+            nextScene!.scaleMode = .aspectFill
+            nextScene?.type = 2
+            scene!.view?.presentScene(nextScene!, transition: transition)
             
             monster.removeFromParent()
         }

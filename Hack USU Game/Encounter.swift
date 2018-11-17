@@ -16,6 +16,7 @@ class Encounter: SKScene {
     let warrior = SKSpriteNode(imageNamed: "warrior_right_big1")
     let blob = SKSpriteNode(imageNamed: "blob_big0")
     let zomb = SKSpriteNode(imageNamed: "zombie_big")
+    let giantZomb = SKSpriteNode(imageNamed: "zombie_giant")
     let attackButton = SKSpriteNode(imageNamed: "attack_button")
     var attackButtonPressed = false
     var monster = SKSpriteNode()
@@ -74,6 +75,14 @@ class Encounter: SKScene {
         zomb.physicsBody!.restitution = 0.0
         zomb.name = "zomb"
         
+        giantZomb.position = CGPoint(x: frame.midX + 350, y: frame.midY)
+        giantZomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
+                                         size: zomb.texture!.size())
+        giantZomb.physicsBody!.allowsRotation = false
+        giantZomb.physicsBody!.contactTestBitMask = zomb.physicsBody!.collisionBitMask
+        giantZomb.physicsBody!.restitution = 0.0
+        giantZomb.name = "zomb"
+        
         for node in self.children {
             if (node.name == "Tile Map Node") {
                 if let someTileMap:SKTileMapNode = node as? SKTileMapNode {
@@ -95,6 +104,11 @@ class Encounter: SKScene {
         if (type == 1) {
             monster = zomb
             monsterHP = 7
+            self.addChild(monster)
+        }
+        if (type == 2) {
+            monster = giantZomb
+            monsterHP = 12
             self.addChild(monster)
         }
     }
