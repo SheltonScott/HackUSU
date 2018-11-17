@@ -24,7 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rightArrowPressed = false
     var jumpArrowPressed = false
     
-    let monsterType = Int(arc4random_uniform(1))
+    let monsterType = Int(arc4random_uniform(2))
     
     var blob = SKSpriteNode()
     var blobFrames = [SKTexture]()
@@ -85,8 +85,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 0:
             for _ in 0..<numBlobs {
                 blob = SKSpriteNode(imageNamed: "blob0")
-                let randomBlobX = CGFloat(arc4random_uniform(500 + 200))
-                blob.position = CGPoint(x: frame.midX + randomBlobX, y: frame.midY)
+                let randomBlobX = CGFloat(arc4random_uniform(3000))
+                blob.position = CGPoint(x: randomBlobX, y: frame.midY)
                 blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
                                                  size: blob.texture!.size())
                 blob.physicsBody!.allowsRotation = false
@@ -107,8 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 1:
             for _ in 0..<numZombs {
                 zomb = SKSpriteNode(imageNamed: "zombie_idle_1")
-                let randomZombX = CGFloat(arc4random_uniform(500 + 200))
-                zomb.position = CGPoint(x: frame.midX + randomZombX, y: frame.midY)
+                let randomZombX = CGFloat(arc4random_uniform(3000))
+                zomb.position = CGPoint(x: randomZombX, y: frame.midY)
                 zomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
                                                  size: zomb.texture!.size())
                 zomb.physicsBody!.allowsRotation = false
@@ -266,7 +266,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func movePlayerUp(_ player: SKSpriteNode) {
-        player.run(SKAction.moveBy(x: 0.0, y: 100.0, duration: 0.2))
+        player.run(SKAction.moveBy(x: 0.0, y: 200.0, duration: 0.2))
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
