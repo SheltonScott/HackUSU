@@ -16,11 +16,13 @@ class GameScene: SKScene {
     
     let rightArrow = SKSpriteNode(imageNamed: "right-arrow")
     let leftArrow = SKSpriteNode(imageNamed: "left-arrow")
+    let jumpArrow = SKSpriteNode(imageNamed: "jump-arrow")
     
     let cam = SKCameraNode()
     
     var leftArrowPressed = false
     var rightArrowPressed = false
+    var jumpArrowPressed = false
     
     
     override func didMove(to view: SKView) {
@@ -52,6 +54,10 @@ class GameScene: SKScene {
         leftArrow.position = CGPoint(x:  warrior.position.x - 500 , y: warrior.position.y - 215)
         leftArrow.zPosition = 1.0
         cam.addChild(leftArrow)
+        
+        jumpArrow.position = CGPoint(x: warrior.position.x + 500, y: warrior.position.y - 215)
+        jumpArrow.zPosition = 1.0
+        cam.addChild(jumpArrow)
         
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: warrior)
         cam.constraints = [constraint]
