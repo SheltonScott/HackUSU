@@ -182,6 +182,9 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             monster.run(SKAction.sequence([SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08)]))
             warrior.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
             playerHP -= 1
+            if (playerHP <= 0) {
+                numKey *= 0
+            }
         }
     }
     if (monster.name == "zomb") {
@@ -204,6 +207,9 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             monster.run(SKAction.sequence([SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08)]))
             warrior.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
             playerHP -= 1
+            if (playerHP <= 0) {
+                numKey *= 0
+            }
         }
     }
         
@@ -227,6 +233,9 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
                 monster.run(SKAction.sequence([SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08)]))
                 warrior.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
                 playerHP -= 1
+                if (playerHP <= 0) {
+                    numKey *= 0
+                }
             }
         }
 }
