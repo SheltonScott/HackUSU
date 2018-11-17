@@ -87,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 0:
             for _ in 0..<numBlobs {
                 blob = SKSpriteNode(imageNamed: "blob0")
-                let randomBlobX = CGFloat(arc4random_uniform(3000))
+                let randomBlobX = CGFloat(arc4random_uniform(2000))
                 blob.position = CGPoint(x: randomBlobX, y: frame.midY)
                 blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
                                                  size: blob.texture!.size())
@@ -109,7 +109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 1:
             for _ in 0..<numZombs {
                 zomb = SKSpriteNode(imageNamed: "zombie_idle_1")
-                let randomZombX = CGFloat(arc4random_uniform(3000))
+                let randomZombX = CGFloat(arc4random_uniform(2000))
                 zomb.position = CGPoint(x: randomZombX, y: frame.midY)
                 zomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
                                                  size: zomb.texture!.size())

@@ -19,6 +19,7 @@ class Encounter: SKScene {
     let attackButton = SKSpriteNode(imageNamed: "attack_button")
     var attackButtonPressed = false
     var monster = SKSpriteNode()
+    var monsterHP = 0
     
     override func didMove(to view: SKView) {
         
@@ -65,10 +66,12 @@ class Encounter: SKScene {
         self.addChild(warrior)
         if (type == 0) {
             monster = blob
+            monsterHP = 5
             self.addChild(monster)
         }
         if (type == 1) {
             monster = zomb
+            monsterHP = 7
             self.addChild(monster)
         }
     }
@@ -117,10 +120,34 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     func attackMonster(_ monster: SKSpriteNode) {
     warrior.run(SKAction.sequence([SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08)]))
     if (monster.name == "blob") {
+        monsterHP -= Int(arc4random_uniform(8 + 1))
         monster.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
+        if (monsterHP <= 0) {
+            monster.run(SKAction.moveBy(x: 0.0, y: -2000.0, duration: 0.45))
+            if let scene = GameScene(fileNamed: "GameScene") {
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .aspectFill
+                let skView = self.view as! SKView
+                
+                // Present the scene
+                skView.presentScene(scene)
+            }
+        }
     }
     if (monster.name == "zomb") {
+        monsterHP -= Int(arc4random_uniform(8 + 1))
         monster.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
+        if (monsterHP <= 0) {
+            monster.run(SKAction.moveBy(x: 0.0, y: -2000.0, duration: 0.45))
+            if let scene = GameScene(fileNamed: "GameScene") {
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .aspectFill
+                let skView = self.view as! SKView
+                
+                // Present the scene
+                skView.presentScene(scene)
+            }
+        }
     }
 }
 
