@@ -29,6 +29,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let numBlobs = Int(arc4random_uniform(6 + 1))
     
+    enum CategoryMask: UInt32 {
+        case warrior = 0b01 // 1
+        case blob = 0b10 // 2
+    }
     
     override func didMove(to view: SKView) {
         
@@ -47,7 +51,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         warrior.physicsBody = SKPhysicsBody(texture: warrior.texture!,
                                             size: warrior.texture!.size())
         warrior.physicsBody!.allowsRotation = false
+        warrior.physicsBody!.contactTestBitMask = warrior.physicsBody!.collisionBitMask
         warrior.physicsBody!.restitution = 0.0
+        warrior.name = "warrior"
         
         self.addChild(warrior)
         
@@ -77,6 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                              size: blob.texture!.size())
             blob.physicsBody!.allowsRotation = false
             blob.physicsBody!.restitution = 0.0
+            blob.name = "blob"
         
             self.addChild(blob)
             
@@ -89,21 +96,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             blob.run(SKAction.repeatForever(SKAction.animate(with: blobFrames, timePerFrame: 0.08)))
         }
         
-        // Set the category masks
-        warrior.physicsBody?.categoryBitMask = CategoryMask.warrior.rawValue
-        blob.physicsBody?.categoryBitMask = CategoryMask.blob.rawValue
-        
-        // Set the collision masks
-        player.physicsBody?.collisionBitMask = CategoryMask.bat.rawValue | CategoryMask.stone.rawValue
-        bat.physicsBody?.collisionBitMask = ~(CategoryMask.player.rawValue | CategoryMask.stone.rawValue)
-        
-        // Set the contact masks
-        player.physicsBody?.contactTestBitMask = CategoryMask.bat.rawValue | CategoryMask.stone.rawValue
-        bat.physicsBody?.contactTestBitMask = ~(CategoryMask.player.rawValue | CategoryMask.stone.rawValue)
-        
         
     }
  
+    func collision(_ player: SKSpriteNode,_ monster: SKSpriteNode) {
+        if (monster.name == "blob") {
+            monster.removeFromParent()
+        }
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        if contact.bodyA.node!.name == "warrior" {
+            collision(contact.bodyA.node as! SKSpriteNode, contact.bodyB.node! as! SKSpriteNode)
+        } else if contact.bodyB.node?.name == "warrior" {
+            collision(contact.bodyB.node! as! SKSpriteNode, contact.bodyA.node! as! SKSpriteNode)
+        }
+    }
     
     func giveTileMapPhysicsBody(map: SKTileMapNode) {
         let tileMap = map
