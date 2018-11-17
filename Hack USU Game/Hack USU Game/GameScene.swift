@@ -11,7 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    let warrior = SKSpriteNode(imageNamed: "warrior_right0")
+    let warrior = SKSpriteNode(imageNamed: "warrior_right1")
     var warriorFrames = [SKTexture]()
     
     let rightArrow = SKSpriteNode(imageNamed: "right-arrow")
@@ -23,6 +23,9 @@ class GameScene: SKScene {
     var leftArrowPressed = false
     var rightArrowPressed = false
     var jumpArrowPressed = false
+    
+    let blob = SKSpriteNode(imageNamed: "blob0")
+    var blobFrames = [SKTexture]()
     
     
     override func didMove(to view: SKView) {
@@ -61,6 +64,22 @@ class GameScene: SKScene {
         
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: warrior)
         cam.constraints = [constraint]
+        
+        blob.position = CGPoint(x: frame.midX + 200, y: frame.midY)
+        blob.physicsBody = SKPhysicsBody(rectangleOf: blob.size)
+        blob.physicsBody!.allowsRotation = false
+        blob.physicsBody!.restitution = 0.0
+        
+        self.addChild(blob)
+        
+        let textureAtlas = SKTextureAtlas(named: "Blob")
+        
+        for index in 0..<textureAtlas.textureNames.count {
+            let textureName = "blob\(index).png"
+            blobFrames.append(textureAtlas.textureNamed(textureName))
+        }
+        
+        blob.run(SKAction.repeatForever(SKAction.animate(with: blobFrames, timePerFrame: 0.08)))
     }
  
     
