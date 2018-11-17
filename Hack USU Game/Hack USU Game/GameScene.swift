@@ -12,7 +12,8 @@ import GameplayKit
 class GameScene: SKScene {
     
     let warrior = SKSpriteNode(imageNamed: "warrior_right0")
-    var warriorLeftFrames = [SKTexture]()
+    var warriorFrames = [SKTexture]()
+    
     let rightArrow = SKSpriteNode(imageNamed: "right-arrow")
     let leftArrow = SKSpriteNode(imageNamed: "left-arrow")
     
@@ -37,13 +38,6 @@ class GameScene: SKScene {
         warrior.physicsBody = SKPhysicsBody(rectangleOf: warrior.size)
         warrior.physicsBody!.allowsRotation = false
         warrior.physicsBody!.restitution = 0.0
-        
-        let textureAtlas = SKTextureAtlas(named: "Warrior")
-        
-        for index in 0..<textureAtlas.textureNames.count {
-            let textureName = "warrior_left" + String(index)
-            warriorLeftFrames.append(textureAtlas.textureNamed(textureName))
-        }
         
         self.addChild(warrior)
         
@@ -108,21 +102,42 @@ class GameScene: SKScene {
         
         let touch = touches.first!
         if leftArrow.contains(touch.location(in: self)) {
-            print("left touched")
             leftArrowPressed = true
+            movePlayerLeft(warrior)
         }
         if rightArrow.contains(touch.location(in: self)) {
-            print("right touched")
             rightArrowPressed = true
+            movePlayerRight(warrior)
         }
     }
     
     func movePlayerLeft(_ player: SKSpriteNode) {
-        player.run(SKAction.moveBy(x: -10.0, y: 0.0, duration: 0.0))
+        let textureAtlas = SKTextureAtlas(named: "WarriorLeft")
+        
+        for index in 0..<textureAtlas.textureNames.count {
+            let textureName = "warrior_left\(index).png"
+            warriorFrames.append(textureAtlas.textureNamed(textureName))
+        }
+        
+        let move = SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.2)
+        let animate = SKAction.animate(with: warriorFrames, timePerFrame: 0.09)
+        let group = SKAction.group([move, animate])
+        player.run(group)
     }
 
     func movePlayerRight(_ player: SKSpriteNode) {
-        player.run(SKAction.moveBy(x: 10.0, y: 0.0, duration: 0.0))
+        
+        let textureAtlas = SKTextureAtlas(named: "WarriorRight")
+        
+        for index in 0..<textureAtlas.textureNames.count {
+            let textureName = "warrior_right\(index).png"
+            warriorFrames.append(textureAtlas.textureNamed(textureName))
+        }
+        
+        let move = SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.2)
+        let animate = SKAction.animate(with: warriorFrames, timePerFrame: 0.09)
+        let group = SKAction.group([move, animate])
+        player.run(group)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -130,13 +145,12 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        warriorFrames.removeAll()
         let touch = touches.first!
         if leftArrow.contains(touch.location(in: self)) {
-            print("left touched")
             leftArrowPressed = false
         }
         if rightArrow.contains(touch.location(in: self)) {
-            print("right touched")
             rightArrowPressed = false
         }
     }
@@ -148,11 +162,11 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-        if (leftArrowPressed == true) {
-            movePlayerLeft(warrior)
-        }
-        if (rightArrowPressed == true) {
-            movePlayerRight(warrior)
-        }
+//        if (leftArrowPressed == true) {
+//            movePlayerLeft(warrior)
+//        }
+//        if (rightArrowPressed == true) {
+//            movePlayerRight(warrior)
+//        }
     }
 }
