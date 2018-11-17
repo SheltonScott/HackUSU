@@ -109,7 +109,12 @@ class Encounter: SKScene {
         }
         if (type == 2) {
             monster = giantZomb
-            monsterHP = 12
+            if (numKey == 0) {
+                monsterHP = 12
+            }
+            else {
+                monsterHP = 12 * numKey
+            }
             self.addChild(monster)
         }
     }
