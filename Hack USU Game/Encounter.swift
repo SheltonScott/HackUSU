@@ -21,6 +21,8 @@ class Encounter: SKScene {
     var monster = SKSpriteNode()
     var monsterHP = 0
     var monsterHpLabel = SKLabelNode()
+    var playerHP = 0
+
     
     override func didMove(to view: SKView) {
         
@@ -72,6 +74,7 @@ class Encounter: SKScene {
             }
         }
         
+        playerHP = 10
         self.addChild(warrior)
         if (type == 0) {
             monster = blob
@@ -143,6 +146,11 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
         }
+        if (monsterHP > 0) {
+            monster.run(SKAction.sequence([SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08)]))
+            warrior.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
+            playerHP -= 1
+        }
     }
     if (monster.name == "zomb") {
         monsterHP -= Int(arc4random_uniform(8 + 1))
@@ -158,6 +166,11 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
+        }
+        if (monsterHP > 0) {
+            monster.run(SKAction.sequence([SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08)]))
+            warrior.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
+            playerHP -= 1
         }
     }
 }
