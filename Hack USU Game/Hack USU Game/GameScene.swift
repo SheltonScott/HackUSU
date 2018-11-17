@@ -11,11 +11,12 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    let warrior = SKSpriteNode(imageNamed: "warrior_right0")
+    let warriorFrames = [SKTexture]()
     
     override func didMove(to view: SKView) {
-        
+        warrior.position = CGPoint(x: frame.midX, y: frame.midY)
+        addChild(warrior)
         
     }
     
