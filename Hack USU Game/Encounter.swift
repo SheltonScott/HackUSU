@@ -12,18 +12,40 @@ import GameplayKit
 
 class Encounter: SKScene {
     
+    let warrior = SKSpriteNode(imageNamed: "warrior_right_big1")
+    let blob = SKSpriteNode(imageNamed: "blob_big0")
+    
     override func didMove(to view: SKView) {
         
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
         
+        warrior.position = CGPoint(x: frame.midX - 350, y: frame.midY)
+        warrior.physicsBody = SKPhysicsBody(texture: warrior.texture!,
+                                            size: warrior.texture!.size())
+        warrior.physicsBody!.allowsRotation = false
+        warrior.physicsBody!.contactTestBitMask = warrior.physicsBody!.collisionBitMask
+        warrior.physicsBody!.restitution = 0.0
+        warrior.name = "warrior"
+        
+        blob.position = CGPoint(x: frame.midX + 350, y: frame.midY)
+        blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
+                                            size: blob.texture!.size())
+        blob.physicsBody!.allowsRotation = false
+        blob.physicsBody!.contactTestBitMask = blob.physicsBody!.collisionBitMask
+        blob.physicsBody!.restitution = 0.0
+        blob.name = "blob"
+        
         for node in self.children {
-            if (node.name == "TileMap") {
+            if (node.name == "Tile Map Node") {
                 if let someTileMap:SKTileMapNode = node as? SKTileMapNode {
                     giveTileMapPhysicsBody(map: someTileMap)
                     someTileMap.removeFromParent()
                 }
             }
         }
+        
+        self.addChild(warrior)
+        self.addChild(blob)
     }
     
     func giveTileMapPhysicsBody(map: SKTileMapNode) {
