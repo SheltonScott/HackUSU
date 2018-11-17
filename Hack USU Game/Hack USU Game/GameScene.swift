@@ -24,7 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rightArrowPressed = false
     var jumpArrowPressed = false
     
-    let monsterType = Int(arc4random_uniform(1))
+    let monsterType = Int(arc4random_uniform(1 + 1))
     
     var blob = SKSpriteNode()
     var blobFrames = [SKTexture]()
@@ -144,7 +144,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nextScene!.scaleMode = .aspectFill
             
             scene!.view?.presentScene(nextScene!, transition: transition)
-            
             monster.removeFromParent()
         }
         else if (monster.name == "zomb") {
@@ -154,8 +153,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             )
             
             let nextScene = Encounter(fileNamed: "Encounter")
-            nextScene!.scaleMode = .aspectFill
             
+            nextScene!.scaleMode = .aspectFill
+            nextScene?.type = 1
             scene!.view?.presentScene(nextScene!, transition: transition)
             
             monster.removeFromParent()

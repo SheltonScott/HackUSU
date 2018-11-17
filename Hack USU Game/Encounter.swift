@@ -15,6 +15,7 @@ class Encounter: SKScene {
     var type = 0
     let warrior = SKSpriteNode(imageNamed: "warrior_right_big1")
     let blob = SKSpriteNode(imageNamed: "blob_big0")
+    let zomb = SKSpriteNode(imageNamed: "zombie_big")
     
     override func didMove(to view: SKView) {
         
@@ -37,6 +38,14 @@ class Encounter: SKScene {
         blob.physicsBody!.restitution = 0.0
         blob.name = "blob"
         
+        zomb.position = CGPoint(x: frame.midX + 350, y: frame.midY)
+        zomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
+                                         size: zomb.texture!.size())
+        zomb.physicsBody!.allowsRotation = false
+        zomb.physicsBody!.contactTestBitMask = zomb.physicsBody!.collisionBitMask
+        zomb.physicsBody!.restitution = 0.0
+        zomb.name = "zomb"
+        
         for node in self.children {
             if (node.name == "Tile Map Node") {
                 if let someTileMap:SKTileMapNode = node as? SKTileMapNode {
@@ -47,7 +56,12 @@ class Encounter: SKScene {
         }
         
         self.addChild(warrior)
-        self.addChild(blob)
+        if (type == 0) {
+            self.addChild(blob)
+        }
+        if (type == 1) {
+            self.addChild(zomb)
+        }
     }
     
     func giveTileMapPhysicsBody(map: SKTileMapNode) {
