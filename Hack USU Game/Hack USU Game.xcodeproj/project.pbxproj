@@ -14,7 +14,7 @@
 		D28958DC219F8E48000BB8FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D28958DA219F8E48000BB8FC /* LaunchScreen.storyboard */; };
 		D28958E4219F8EDB000BB8FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D28958E3219F8EDB000BB8FC /* AppDelegate.swift */; };
 		D28958E6219F8F2D000BB8FC /* MyScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D28958E5219F8F2D000BB8FC /* MyScene.sks */; };
-		D28958E8219F8F44000BB8FC /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = D28958E7219F8F44000BB8FC /* MyTileSet.sks */; };
+		D28958EC219F99BD000BB8FC /* MyTileSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = D28958EB219F99BD000BB8FC /* MyTileSet.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,7 @@
 		D28958DD219F8E48000BB8FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D28958E3219F8EDB000BB8FC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D28958E5219F8F2D000BB8FC /* MyScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyScene.sks; sourceTree = "<group>"; };
-		D28958E7219F8F44000BB8FC /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
+		D28958EB219F99BD000BB8FC /* MyTileSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MyTileSet.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,7 @@
 				D28958DA219F8E48000BB8FC /* LaunchScreen.storyboard */,
 				D28958DD219F8E48000BB8FC /* Info.plist */,
 				D28958E5219F8F2D000BB8FC /* MyScene.sks */,
-				D28958E7219F8F44000BB8FC /* MyTileSet.sks */,
+				D28958EB219F99BD000BB8FC /* MyTileSet.sks */,
 			);
 			path = "Hack USU Game";
 			sourceTree = "<group>";
@@ -134,7 +134,7 @@
 				D28958D7219F8E45000BB8FC /* Main.storyboard in Resources */,
 				D28958D9219F8E48000BB8FC /* Assets.xcassets in Resources */,
 				D28958E6219F8F2D000BB8FC /* MyScene.sks in Resources */,
-				D28958E8219F8F44000BB8FC /* MyTileSet.sks in Resources */,
+				D28958EC219F99BD000BB8FC /* MyTileSet.sks in Resources */,
 				D28958DC219F8E48000BB8FC /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,7 +295,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7664Z8D7V3;
+				DEVELOPMENT_TEAM = K42285HR6T;
 				INFOPLIST_FILE = "Hack USU Game/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -313,7 +313,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7664Z8D7V3;
+				DEVELOPMENT_TEAM = K42285HR6T;
 				INFOPLIST_FILE = "Hack USU Game/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
