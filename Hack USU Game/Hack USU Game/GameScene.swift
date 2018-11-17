@@ -44,6 +44,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var touchingGround = false
     
+    var keysLabel = SKLabelNode()
+    
     enum CategoryMask: UInt32 {
         case warrior = 0b01 // 1
         case blob = 0b10 // 2
@@ -101,6 +103,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         key.physicsBody!.restitution = 0.0
         key.name = "key"
         self.addChild(key)
+        
+        keysLabel.text = ("Keys: " + String(numKeys))
+        keysLabel.fontColor = UIColor.black
+        keysLabel.fontSize = 60.0
+        keysLabel.fontName = "arial"
+        keysLabel.zPosition = 2.0
+        keysLabel.position = CGPoint(x: frame.midX - 480, y: frame.midY + 240)
+        cam.addChild(keysLabel)
         
         switch monsterType {
         case 0:
@@ -184,6 +194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             monster.removeFromParent()
         }
         if (monster.name == "key") {
+<<<<<<< HEAD
             let transition = SKTransition.reveal(
                 with: .down,
                 duration: 1.0
@@ -194,8 +205,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nextScene!.scaleMode = .aspectFill
             nextScene?.type = 2
             scene!.view?.presentScene(nextScene!, transition: transition)
+=======
+>>>>>>> a4f6c9c8a9b468e4129030f50907bd339fbda46e
             
             monster.removeFromParent()
+            print("collided")
+            numKeys += 1
+            
+            
         }
     }
     
@@ -331,6 +348,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func update(_ currentTime: TimeInterval) {
-        
+        keysLabel.text = ("Keys: " + String(numKeys))
     }
 }
