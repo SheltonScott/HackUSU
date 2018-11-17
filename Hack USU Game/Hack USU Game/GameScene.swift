@@ -17,6 +17,9 @@ class GameScene: SKScene {
     let rightArrow = SKSpriteNode(imageNamed: "right-arrow")
     let leftArrow = SKSpriteNode(imageNamed: "left-arrow")
     
+    let cam = SKCameraNode()
+    
+    
     var leftArrowPressed = false
     var rightArrowPressed = false
     
@@ -41,13 +44,15 @@ class GameScene: SKScene {
         
         self.addChild(warrior)
         
+        self.camera = cam
+        self.addChild(cam)
         rightArrow.position = CGPoint(x: frame.midX - 300, y: frame.midY - 215)
         rightArrow.zPosition = 1.0
-        self.addChild(rightArrow)
+        cam.addChild(rightArrow)
         
         leftArrow.position = CGPoint(x: frame.midX - 500, y: frame.midY - 215)
         leftArrow.zPosition = 1.0
-        self.addChild(leftArrow)
+        cam.addChild(leftArrow)
         
         
     }
@@ -161,12 +166,6 @@ class GameScene: SKScene {
     
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-//        if (leftArrowPressed == true) {
-//            movePlayerLeft(warrior)
-//        }
-//        if (rightArrowPressed == true) {
-//            movePlayerRight(warrior)
-//        }
+       cam.position = warrior.position
     }
 }
