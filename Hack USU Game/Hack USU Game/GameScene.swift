@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let warrior = SKSpriteNode(imageNamed: "warrior_right1")
     var warriorFrames = [SKTexture]()
@@ -24,13 +24,16 @@ class GameScene: SKScene {
     var rightArrowPressed = false
     var jumpArrowPressed = false
     
-    let blob = SKSpriteNode(imageNamed: "blob0")
+    var blob = SKSpriteNode()
     var blobFrames = [SKTexture]()
+    
+    let numBlobs = Int(arc4random_uniform(6 + 1))
     
     
     override func didMove(to view: SKView) {
         
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
+        physicsWorld.contactDelegate = self
         
         for node in self.children {
             if (node.name == "TileMap") {
@@ -41,7 +44,8 @@ class GameScene: SKScene {
             }
         }
         warrior.position = CGPoint(x: frame.midX, y: frame.midY)
-        warrior.physicsBody = SKPhysicsBody(rectangleOf: warrior.size)
+        warrior.physicsBody = SKPhysicsBody(texture: warrior.texture!,
+                                            size: warrior.texture!.size())
         warrior.physicsBody!.allowsRotation = false
         warrior.physicsBody!.restitution = 0.0
         
@@ -65,21 +69,39 @@ class GameScene: SKScene {
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: warrior)
         cam.constraints = [constraint]
         
-        blob.position = CGPoint(x: frame.midX + 200, y: frame.midY)
-        blob.physicsBody = SKPhysicsBody(rectangleOf: blob.size)
-        blob.physicsBody!.allowsRotation = false
-        blob.physicsBody!.restitution = 0.0
+        for _ in 0..<numBlobs {
+            blob = SKSpriteNode(imageNamed: "blob0")
+            let randomBlobX = CGFloat(arc4random_uniform(3000 + 100))
+            blob.position = CGPoint(x: frame.midX + randomBlobX, y: frame.midY)
+            blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
+                                             size: blob.texture!.size())
+            blob.physicsBody!.allowsRotation = false
+            blob.physicsBody!.restitution = 0.0
         
-        self.addChild(blob)
-        
-        let textureAtlas = SKTextureAtlas(named: "Blob")
-        
-        for index in 0..<textureAtlas.textureNames.count {
-            let textureName = "blob\(index).png"
-            blobFrames.append(textureAtlas.textureNamed(textureName))
+            self.addChild(blob)
+            
+            let textureAtlas = SKTextureAtlas(named: "Blob")
+            
+            for index in 0..<textureAtlas.textureNames.count {
+                let textureName = "blob\(index).png"
+                blobFrames.append(textureAtlas.textureNamed(textureName))
+            }
+            blob.run(SKAction.repeatForever(SKAction.animate(with: blobFrames, timePerFrame: 0.08)))
         }
         
-        blob.run(SKAction.repeatForever(SKAction.animate(with: blobFrames, timePerFrame: 0.08)))
+        // Set the category masks
+        warrior.physicsBody?.categoryBitMask = CategoryMask.warrior.rawValue
+        blob.physicsBody?.categoryBitMask = CategoryMask.blob.rawValue
+        
+        // Set the collision masks
+        player.physicsBody?.collisionBitMask = CategoryMask.bat.rawValue | CategoryMask.stone.rawValue
+        bat.physicsBody?.collisionBitMask = ~(CategoryMask.player.rawValue | CategoryMask.stone.rawValue)
+        
+        // Set the contact masks
+        player.physicsBody?.contactTestBitMask = CategoryMask.bat.rawValue | CategoryMask.stone.rawValue
+        bat.physicsBody?.contactTestBitMask = ~(CategoryMask.player.rawValue | CategoryMask.stone.rawValue)
+        
+        
     }
  
     
