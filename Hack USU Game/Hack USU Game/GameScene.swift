@@ -94,7 +94,13 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+        let touch = touches.first!
+        if leftArrow.contains(touch.location(in: self)) {
+            print("left touched")
+        }
+        if rightArrow.contains(touch.location(in: self)) {
+            print("right touched")
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
