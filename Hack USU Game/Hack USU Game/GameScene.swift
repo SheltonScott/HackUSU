@@ -13,21 +13,25 @@ class GameScene: SKScene {
     
     let warrior = SKSpriteNode(imageNamed: "warrior_right0")
     let warriorFrames = [SKTexture]()
-    let grassTile = SKTileSet(named: "Grass")
     
     override func didMove(to view: SKView) {
         
+        physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
+        
         for node in self.children {
-            if (node.name == "GrassTile") {
-                if let worldMap:SKTileMapNode = node as? SKTileMapNode {
-                    giveTileMapPhysicsBody(map: worldMap)
-                    worldMap.removeFromParent()
+            if (node.name == "Grass") {
+                if let someTileMap:SKTileMapNode = node as? SKTileMapNode {
+                    giveTileMapPhysicsBody(map: someTileMap)
+                    someTileMap.removeFromParent()
                 }
             }
         }
         
         warrior.position = CGPoint(x: frame.midX, y: frame.midY)
-        addChild(warrior)
+        warrior.physicsBody = SKPhysicsBody(rectangleOf: warrior.size)
+        warrior.physicsBody!.allowsRotation = false
+        warrior.physicsBody!.restitution = 0.0
+        self.addChild(warrior)
         
     }
     
