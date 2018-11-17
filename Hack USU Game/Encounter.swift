@@ -21,6 +21,7 @@ class Encounter: SKScene {
     var monster = SKSpriteNode()
     var monsterHP = 0
     var monsterHpLabel = SKLabelNode()
+    var playerHpLabel = SKLabelNode()
     var playerHP = 0
 
     
@@ -47,6 +48,14 @@ class Encounter: SKScene {
         monsterHpLabel.zPosition = 2.0
         monsterHpLabel.position = CGPoint(x: frame.midX + 380, y: frame.midY + 250)
         self.addChild(monsterHpLabel)
+        
+        playerHpLabel.text = (String(playerHP) + " HP")
+        playerHpLabel.fontColor = UIColor.black
+        playerHpLabel.fontSize = 60.0
+        playerHpLabel.fontName = "arial"
+        playerHpLabel.zPosition = 2.0
+        playerHpLabel.position = CGPoint(x: frame.midX - 380, y: frame.midY + 250)
+        self.addChild(playerHpLabel)
         
         
         blob.position = CGPoint(x: frame.midX + 350, y: frame.midY)
@@ -78,12 +87,12 @@ class Encounter: SKScene {
         self.addChild(warrior)
         if (type == 0) {
             monster = blob
-            monsterHP = 50
+            monsterHP = 5
             self.addChild(monster)
         }
         if (type == 1) {
             monster = zomb
-            monsterHP = 70
+            monsterHP = 7
             self.addChild(monster)
         }
     }
@@ -183,7 +192,8 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        monsterHpLabel.text = String(monsterHP)
+        monsterHpLabel.text = (String(monsterHP) + " HP")
+        playerHpLabel.text = (String(playerHP) + " HP")
         
     }
     
