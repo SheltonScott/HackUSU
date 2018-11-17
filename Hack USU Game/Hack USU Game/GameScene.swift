@@ -110,6 +110,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nextScene!.scaleMode = .aspectFill
             
             scene!.view?.presentScene(nextScene!, transition: transition)
+            
+            monster.removeFromParent()
         }
     }
     
