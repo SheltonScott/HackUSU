@@ -24,6 +24,7 @@ class Encounter: SKScene {
     var monsterHpLabel = SKLabelNode()
     var playerHpLabel = SKLabelNode()
     var playerHP = 0
+    var numKey = 0
 
     
     override func didMove(to view: SKView) {
@@ -75,13 +76,13 @@ class Encounter: SKScene {
         zomb.physicsBody!.restitution = 0.0
         zomb.name = "zomb"
         
-        giantZomb.position = CGPoint(x: frame.midX + 350, y: frame.midY)
-        giantZomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
-                                         size: zomb.texture!.size())
+        giantZomb.position = CGPoint(x: frame.midX + 350, y: frame.midY + 50)
+        giantZomb.physicsBody = SKPhysicsBody(texture: giantZomb.texture!,
+                                         size: giantZomb.texture!.size())
         giantZomb.physicsBody!.allowsRotation = false
-        giantZomb.physicsBody!.contactTestBitMask = zomb.physicsBody!.collisionBitMask
+        giantZomb.physicsBody!.contactTestBitMask = giantZomb.physicsBody!.collisionBitMask
         giantZomb.physicsBody!.restitution = 0.0
-        giantZomb.name = "zomb"
+        giantZomb.name = "giantZomb"
         
         for node in self.children {
             if (node.name == "Tile Map Node") {
@@ -167,6 +168,7 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             )
             
             let nextScene = GameScene(fileNamed: "GameScene")
+            nextScene!.numKeys = numKey
             nextScene!.playerHp = playerHP
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
@@ -188,6 +190,7 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             )
             
             let nextScene = GameScene(fileNamed: "GameScene")
+            nextScene!.numKeys = numKey
             nextScene!.playerHp = playerHP
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
@@ -198,6 +201,29 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             playerHP -= 1
         }
     }
+        
+        if (monster.name == "giantZomb") {
+            monsterHP -= Int(arc4random_uniform(8 + 1))
+            monster.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
+            if (monsterHP <= 0) {
+                monster.run(SKAction.moveBy(x: 0.0, y: -2000.0, duration: 0.45))
+                let transition = SKTransition.reveal(
+                    with: .down,
+                    duration: 1.0
+                )
+                
+                let nextScene = GameScene(fileNamed: "GameScene")
+                nextScene!.numKeys = numKey + 1
+                nextScene!.playerHp = playerHP
+                nextScene!.scaleMode = .aspectFill
+                scene!.view?.presentScene(nextScene!, transition: transition)
+            }
+            if (monsterHP > 0) {
+                monster.run(SKAction.sequence([SKAction.moveBy(x: -100.0, y: 0.0, duration: 0.08), SKAction.moveBy(x: 100.0, y: 0.0, duration: 0.08)]))
+                warrior.run(SKAction.sequence([SKAction.hide(), SKAction.unhide()]))
+                playerHP -= 1
+            }
+        }
 }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
