@@ -19,7 +19,7 @@ class GameScene: SKScene {
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
         
         for node in self.children {
-            if (node.name == "Grass") {
+            if (node.name == "TileMap") {
                 if let someTileMap:SKTileMapNode = node as? SKTileMapNode {
                     giveTileMapPhysicsBody(map: someTileMap)
                     someTileMap.removeFromParent()
