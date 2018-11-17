@@ -106,10 +106,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 duration: 1.0
             )
             
-            let nextScene = Encounter(size: scene!.size)
-            nextScene.scaleMode = .aspectFill
+            let nextScene = Encounter(fileNamed: "Encounter")
+            nextScene!.scaleMode = .aspectFill
             
-            scene!.view?.presentScene(nextScene, transition: transition)
+            scene!.view?.presentScene(nextScene!, transition: transition)
         }
     }
     
