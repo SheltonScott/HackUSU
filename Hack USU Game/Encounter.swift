@@ -20,7 +20,10 @@ class Encounter: SKScene {
     var attackButtonPressed = false
     var monster = SKSpriteNode()
     var monsterHP = 0
+    var monsterHpLabel = SKLabelNode()
+    var playerHpLabel = SKLabelNode()
     var playerHP = 0
+
     
     override func didMove(to view: SKView) {
         
@@ -37,6 +40,22 @@ class Encounter: SKScene {
         warrior.physicsBody!.contactTestBitMask = warrior.physicsBody!.collisionBitMask
         warrior.physicsBody!.restitution = 0.0
         warrior.name = "warrior"
+        
+        monsterHpLabel.text = (String(monsterHP) + " HP")
+        monsterHpLabel.fontColor = UIColor.black
+        monsterHpLabel.fontSize = 60.0
+        monsterHpLabel.fontName = "arial"
+        monsterHpLabel.zPosition = 2.0
+        monsterHpLabel.position = CGPoint(x: frame.midX + 380, y: frame.midY + 250)
+        self.addChild(monsterHpLabel)
+        
+        playerHpLabel.text = (String(playerHP) + " HP")
+        playerHpLabel.fontColor = UIColor.black
+        playerHpLabel.fontSize = 60.0
+        playerHpLabel.fontName = "arial"
+        playerHpLabel.zPosition = 2.0
+        playerHpLabel.position = CGPoint(x: frame.midX - 380, y: frame.midY + 250)
+        self.addChild(playerHpLabel)
         
         
         blob.position = CGPoint(x: frame.midX + 350, y: frame.midY)
@@ -64,7 +83,9 @@ class Encounter: SKScene {
             }
         }
         
-        playerHP = 10
+        if (playerHP <= 0) {
+            playerHP = 10
+        }
         self.addChild(warrior)
         if (type == 0) {
             monster = blob
@@ -132,7 +153,7 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             )
             
             let nextScene = GameScene(fileNamed: "GameScene")
-            
+            nextScene!.playerHp = playerHP
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
         }
@@ -153,7 +174,7 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             )
             
             let nextScene = GameScene(fileNamed: "GameScene")
-            
+            nextScene!.playerHp = playerHP
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
         }
@@ -173,6 +194,8 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        monsterHpLabel.text = (String(monsterHP) + " HP")
+        playerHpLabel.text = (String(playerHP) + " HP")
         
     }
     

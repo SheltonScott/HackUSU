@@ -12,6 +12,7 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let warrior = SKSpriteNode(imageNamed: "warrior_right1")
+    var playerHp = 0
     var warriorFrames = [SKTexture]()
     
     let rightArrow = SKSpriteNode(imageNamed: "right-arrow")
@@ -154,7 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let nextScene = Encounter(fileNamed: "Encounter")
             nextScene!.scaleMode = .aspectFill
-            
+            nextScene!.playerHP = playerHp
             scene!.view?.presentScene(nextScene!, transition: transition)
             monster.removeFromParent()
         }
@@ -165,7 +166,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             )
             
             let nextScene = Encounter(fileNamed: "Encounter")
-            
+            nextScene!.playerHP = playerHp
             nextScene!.scaleMode = .aspectFill
             nextScene?.type = 1
             scene!.view?.presentScene(nextScene!, transition: transition)
