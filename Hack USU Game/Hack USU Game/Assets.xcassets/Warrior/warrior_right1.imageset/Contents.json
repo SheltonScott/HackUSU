@@ -2,6 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "warrior_right1.png",
       "scale" : "1x"
     },
     {
