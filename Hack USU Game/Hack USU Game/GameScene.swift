@@ -77,7 +77,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for _ in 0..<numBlobs {
             blob = SKSpriteNode(imageNamed: "blob0")
-            let randomBlobX = CGFloat(arc4random_uniform(2000 + 100))
+            let randomBlobX = CGFloat(arc4random_uniform(1000 + 100))
             blob.position = CGPoint(x: frame.midX + randomBlobX, y: frame.midY)
             blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
                                              size: blob.texture!.size())
