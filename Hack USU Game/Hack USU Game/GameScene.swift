@@ -25,7 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var rightArrowPressed = false
     var jumpArrowPressed = false
     
-
+    let key = SKSpriteNode(imageNamed: "key")
+    var numKeys = 0
     
     let monsterType = Int(arc4random_uniform(2))
     
@@ -91,6 +92,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: warrior)
         cam.constraints = [constraint]
+        
+        key.position = CGPoint(x: frame.midX + 1700, y: frame.midY + 200)
+        key.zPosition = 1.0
+        key.physicsBody = SKPhysicsBody(texture: key.texture!,
+                                        size: key.texture!.size())
+        key.physicsBody!.allowsRotation = false
+        key.physicsBody!.restitution = 0.0
+        key.name = "key"
+        self.addChild(key)
         
         switch monsterType {
         case 0:
@@ -170,6 +180,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             nextScene!.scaleMode = .aspectFill
             nextScene?.type = 1
             scene!.view?.presentScene(nextScene!, transition: transition)
+            
+            monster.removeFromParent()
+        }
+        if (monster.name == "key") {
+            numKeys += 1
             
             monster.removeFromParent()
         }
