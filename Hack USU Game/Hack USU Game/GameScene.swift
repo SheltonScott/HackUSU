@@ -40,6 +40,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var blobX = CGFloat(200)
     var zombX = CGFloat(200)
     
+    var touchingGround = false
+    
     enum CategoryMask: UInt32 {
         case warrior = 0b01 // 1
         case blob = 0b10 // 2
@@ -93,7 +95,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 0:
             for _ in 0..<numBlobs {
                 blob = SKSpriteNode(imageNamed: "blob0")
-                blob.position = CGPoint(x: frame.midX + blobX, y: frame.midY)
+                blob.position = CGPoint(x: frame.midX + blobX, y: frame.midY + 500.0)
                 blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
                                                  size: blob.texture!.size())
                 blob.physicsBody!.allowsRotation = false
@@ -116,7 +118,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 1:
             for _ in 0..<numZombs {
                 zomb = SKSpriteNode(imageNamed: "zombie_idle_1")
-                zomb.position = CGPoint(x: frame.midX + zombX, y: frame.midY)
+                zomb.position = CGPoint(x: frame.midX + zombX, y: frame.midY + 500.0)
                 zomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
                                                  size: zomb.texture!.size())
                 zomb.physicsBody!.allowsRotation = false
@@ -156,7 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scene!.view?.presentScene(nextScene!, transition: transition)
             monster.removeFromParent()
         }
-        else if (monster.name == "zomb") {
+        if (monster.name == "zomb") {
             let transition = SKTransition.reveal(
                 with: .down,
                 duration: 1.0
@@ -239,7 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         if jumpArrow.contains(touch.location(in: cam)) {
             jumpArrowPressed = true
-            if (warrior.position.y < frame.midY) {
+            if (warrior.position.y <= frame.midY + 200) {
             movePlayerUp(warrior)
             }
         }
