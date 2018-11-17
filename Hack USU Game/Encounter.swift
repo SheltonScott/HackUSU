@@ -83,7 +83,9 @@ class Encounter: SKScene {
             }
         }
         
-        playerHP = 10
+        if (playerHP <= 0) {
+            playerHP = 10
+        }
         self.addChild(warrior)
         if (type == 0) {
             monster = blob
@@ -151,7 +153,7 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             )
             
             let nextScene = GameScene(fileNamed: "GameScene")
-            
+            nextScene!.playerHp = playerHP
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
         }
@@ -172,7 +174,7 @@ override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             )
             
             let nextScene = GameScene(fileNamed: "GameScene")
-            
+            nextScene!.playerHp = playerHP
             nextScene!.scaleMode = .aspectFill
             scene!.view?.presentScene(nextScene!, transition: transition)
         }
