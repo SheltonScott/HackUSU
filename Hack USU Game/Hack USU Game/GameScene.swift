@@ -36,11 +36,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var zomb = SKSpriteNode()
     var zombFrames = [SKTexture]()
     
-    let numBlobs = Int(arc4random_uniform(6 + 1))
-    let numZombs = Int(arc4random_uniform(6 + 1))
-    
-    var blobX = CGFloat(200)
-    var zombX = CGFloat(200)
+    let numBlobs = Int(arc4random_uniform(6) + 1)
+    let numZombs = Int(arc4random_uniform(6) + 1)
     
     var touchingGround = false
     
@@ -56,17 +53,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -2.0)
         physicsWorld.contactDelegate = self
         
-        blobX = CGFloat(200)
-        zombX = CGFloat(200)
-        
         for node in self.children {
             if (node.name == "TileMap") {
                 if let someTileMap:SKTileMapNode = node as? SKTileMapNode {
+                    print(someTileMap.mapSize.width)
                     giveTileMapPhysicsBody(map: someTileMap)
                     someTileMap.removeFromParent()
                 }
             }
         }
+        
+        print(frame.minX)
+        
         warrior.position = CGPoint(x: frame.midX, y: frame.midY)
         warrior.physicsBody = SKPhysicsBody(texture: warrior.texture!,
                                             size: warrior.texture!.size())
@@ -95,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: warrior)
         cam.constraints = [constraint]
         
-        key.position = CGPoint(x: frame.midX + 1700, y: frame.midY + 200)
+        key.position = CGPoint(x: CGFloat(arc4random_uniform(8192)), y: frame.midY + 500)
         key.zPosition = 1.0
         key.physicsBody = SKPhysicsBody(texture: key.texture!,
                                         size: key.texture!.size())
@@ -112,11 +110,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         keysLabel.position = CGPoint(x: frame.midX - 480, y: frame.midY + 240)
         cam.addChild(keysLabel)
         
-        switch monsterType {
-        case 0:
             for _ in 0..<numBlobs {
                 blob = SKSpriteNode(imageNamed: "blob0")
-                blob.position = CGPoint(x: frame.midX + blobX, y: frame.midY + 500.0)
+                let randBlobX = CGFloat(arc4random_uniform(8192))
+                blob.position = CGPoint(x: randBlobX, y: frame.midY + 500.0)
                 blob.physicsBody = SKPhysicsBody(texture: blob.texture!,
                                                  size: blob.texture!.size())
                 blob.physicsBody!.allowsRotation = false
@@ -124,8 +121,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 blob.name = "blob"
                 
                 self.addChild(blob)
-                
-                blobX += CGFloat(arc4random_uniform(300 + 100))
                 
                 let textureAtlas = SKTextureAtlas(named: "Blob")
                 
@@ -135,11 +130,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 blob.run(SKAction.repeatForever(SKAction.animate(with: blobFrames, timePerFrame: 0.08)))
             }
-            break
-        case 1:
             for _ in 0..<numZombs {
                 zomb = SKSpriteNode(imageNamed: "zombie_idle_1")
-                zomb.position = CGPoint(x: frame.midX + zombX, y: frame.midY + 500.0)
+                let randZombX = CGFloat(arc4random_uniform(8193))
+                zomb.position = CGPoint(x: randZombX, y: frame.midY + 500.0)
                 zomb.physicsBody = SKPhysicsBody(texture: zomb.texture!,
                                                  size: zomb.texture!.size())
                 zomb.physicsBody!.allowsRotation = false
@@ -147,8 +141,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 zomb.name = "zomb"
                 
                 self.addChild(zomb)
-                
-                zombX += CGFloat(arc4random_uniform(300 + 100))
                 
                 let textureAtlas = SKTextureAtlas(named: "ZombieIdle")
                 
@@ -158,10 +150,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 zomb.run(SKAction.repeatForever(SKAction.animate(with: zombFrames, timePerFrame: 0.08)))
             }
-            break
-        default:
-            break
-        }
         
         
     }
